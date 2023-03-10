@@ -37,3 +37,33 @@ export VAULT_ADDR='http://127.0.0.1:8200'
 vault operator init
 vault operator unseal
 ```
+
+# Postgres
+Next lets setup the database that backstage.io will use. Dont worry we will reset the postgress password later using vault
+```bash
+kubectl apply -f k8s/postgres.yaml
+```
+
+Now we have that running lets setup vault **You'll need to port forward again**
+```bash
+export VAULT_ADDR='http://127.0.0.1:8200'
+vault login
+vault secrets enable database
+
+vault write database/config/my-postgresql-database \
+    plugin_name="postgresql-database-plugin" \
+    allowed_roles="my-role" \
+    connection_url="postgresql://{{username}}:{{password}}@postgres.backstage.svc.cluster.local:5432/" \
+    username="backstage" \
+    password="hunter2"
+
+```
+
+
+
+# Clean
+```bash
+kubectl delete namespaces backstage vault
+cd eks
+terraform destroy
+``
