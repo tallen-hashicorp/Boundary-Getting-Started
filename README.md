@@ -4,8 +4,9 @@ This will setup a EKS cluster, install backstage.io and use boundary to access i
 # EKS
 ![eks](./consul-aws-eks-terraform/eks-cluster.tf)
 
-To set up an EKS cluster, the first step is to use Terraform to configure the necessary infrastructure. This involves creating a VPC, subnets, and security groups.
+Setting up an EKS cluster is a process that involves several steps. The first and most important step is to use Terraform to configure the necessary infrastructure. In this step we will create the EKS cluster itself. 
 ```bash
 cd eks
-terraform init
+terraform apply
+
 ```
